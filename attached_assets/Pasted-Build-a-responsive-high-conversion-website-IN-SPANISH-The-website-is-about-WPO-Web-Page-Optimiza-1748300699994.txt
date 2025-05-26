@@ -1,0 +1,77 @@
+Build a responsive, high-conversion website IN SPANISH.
+The website is about WPO (Web Page Optimization) or website speed optimization.
+with the following technical specifications:
+
+1.Architecture Requirements
+
+-Implement a component-based architecture following atomic design principles
+-Utilize semantic HTML5 markup with appropriate ARIA attributes for accessibility compliance (WCAG 2.1 AA)
+-Structure the codebase with clear separation of concerns (presentation/logic/data)
+-Implement proper asset optimization with lazy-loading for all below-the-fold images
+-Configure appropriate cache-control headers and leverage browser caching
+
+2.Frontend Technical Stack
+
+-React.js for component rendering with functional components and hooks
+-CSS-in-JS solution (preferably styled-components) with a design system approach
+-Progressive enhancement strategy for graceful degradation
+-Implement critical CSS path rendering for above-the-fold content
+-Establish mobile-first responsive breakpoints (375px, 768px, 1024px, 1440px)
+
+3.Performance Optimization
+
+-Target a Lighthouse performance score >90
+-Implement code-splitting with dynamic imports for route-based chunking
+-Optimize Core Web Vitals metrics:
+   -LCP < 2.5s
+   -FID < 100ms
+   -CLS < 0.1
+
+-Implement resource hints (pre-connect, prefetch, preload) for critical resources
+-Optimize for TTFB < 200ms where server configuration permits
+
+4.Conversion Elements
+
+-Implement a strategic visual hierarchy with clear F-pattern or Z-pattern reading flows
+-Place primary CTAs with 60px minimum touch target size and 3:1 contrast ratio
+-Implement microcopy with action-oriented language adjacent to input fields
+-Create form validation with inline error handling and real-time feedback
+-Implement social proof elements with quantifiable metrics where appropriate
+-Design scroll-triggered animations for key conversion elements using Intersection Observer API
+
+5. Analytics Integration
+-Set up event-based tracking for all user interactions
+-Implement conversion funnel tracking with defined micro and macro conversions
+-Configure appropriate UTM parameter handling for marketing attribution
+-Implement cross-domain tracking where applicable
+-Set up enhanced e-commerce tracking for product-related interactions
+
+6. Security Implementation
+-Implement proper Content Security Policy headers
+-Configure appropriate CORS policies
+-Implement rate limiting on form submissions
+-Sanitize all user inputs with appropriate validation
+-Implement CSRF protection on all form submissions
+
+7. Technical SEO
+-Implement structured data markup (JSON-LD) for appropriate schema types
+-Create a programmatically generated sitemap.xml with lastmod attributes
+-Implement canonical URLs and appropriate meta tags
+-Configure proper robots.txt with crawl directives
+-Ensure semantic heading hierarchy (h1-h6) throughout the site
+
+8. Deployment Configuration
+-Configure proper environment variables separation
+-Implement CI/CD pipeline with pre-commit hooks for code quality
+-Configure proper build optimization with tree-shaking
+-Implement proper error logging and monitoring
+-Configure appropriate redirects for legacy URLs
+
+9.Output Deliverables
+-Clean, documented source code with JSDoc comments where appropriate
+-Comprehensive README with setup instructions and architecture decisions
+-Performance optimization report with Lighthouse scores
+-Mobile and desktop wireframes with annotated conversion elements
+-Responsive breakpoint visualization
+
+Generate the complete solution with an emphasis on measurable conversion metrics and scalable architecture.
