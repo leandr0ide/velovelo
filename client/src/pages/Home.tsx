@@ -8,8 +8,11 @@ import { Testimonials } from '@/components/Testimonials';
 import { Resources } from '@/components/Resources';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
 
 export default function Home() {
+  useScrollToTop();
+
   return (
     <div className="min-h-screen">
       <Header />
