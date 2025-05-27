@@ -80,7 +80,7 @@ export function useScrollAnimationMultiple(elements: number, options?: UseScroll
     };
   }, [elements, options]);
 
-  const setRef = (index: number) => (element: HTMLElement | null) => {
+  const setRef = (index: number) => (element: HTMLDivElement | null) => {
     refs.current[index] = element;
   };
 
