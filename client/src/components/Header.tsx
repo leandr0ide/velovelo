@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { Link } from 'wouter';
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -30,24 +31,24 @@ export function Header() {
           </div>
           
           <div className="hidden md:flex items-center space-x-8">
-            <button 
-              onClick={() => scrollToSection('servicios')}
-              className="text-wpo-text-primary hover:text-wpo-primary transition-colors"
+            <Link 
+              href="/auditoria-wpo"
+              className="text-gray-700 hover:text-wpo-primary transition-colors"
             >
               Servicios
-            </button>
-            <button 
-              onClick={() => scrollToSection('casos-exito')}
-              className="text-wpo-text-primary hover:text-wpo-primary transition-colors"
+            </Link>
+            <Link 
+              href="/casos-exito"
+              className="text-gray-700 hover:text-wpo-primary transition-colors"
             >
               Casos de Éxito
-            </button>
-            <button 
-              onClick={() => scrollToSection('recursos')}
-              className="text-wpo-text-primary hover:text-wpo-primary transition-colors"
+            </Link>
+            <Link 
+              href="/recursos"
+              className="text-gray-700 hover:text-wpo-primary transition-colors"
             >
               Recursos
-            </button>
+            </Link>
             <Button 
               onClick={() => scrollToSection('contacto')}
               className="bg-wpo-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
@@ -64,24 +65,27 @@ export function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[280px]">
               <div className="flex flex-col space-y-4 mt-8">
-                <button 
-                  onClick={() => scrollToSection('servicios')}
-                  className="text-left text-wpo-text-primary hover:text-wpo-primary transition-colors py-2"
+                <Link 
+                  href="/auditoria-wpo"
+                  className="text-left text-gray-700 hover:text-wpo-primary transition-colors py-2"
+                  onClick={() => setIsOpen(false)}
                 >
                   Servicios
-                </button>
-                <button 
-                  onClick={() => scrollToSection('casos-exito')}
-                  className="text-left text-wpo-text-primary hover:text-wpo-primary transition-colors py-2"
+                </Link>
+                <Link 
+                  href="/casos-exito"
+                  className="text-left text-gray-700 hover:text-wpo-primary transition-colors py-2"
+                  onClick={() => setIsOpen(false)}
                 >
                   Casos de Éxito
-                </button>
-                <button 
-                  onClick={() => scrollToSection('recursos')}
-                  className="text-left text-wpo-text-primary hover:text-wpo-primary transition-colors py-2"
+                </Link>
+                <Link 
+                  href="/recursos"
+                  className="text-left text-gray-700 hover:text-wpo-primary transition-colors py-2"
+                  onClick={() => setIsOpen(false)}
                 >
                   Recursos
-                </button>
+                </Link>
                 <Button 
                   onClick={() => scrollToSection('contacto')}
                   className="bg-wpo-primary text-white mt-4"

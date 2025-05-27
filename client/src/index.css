@@ -122,6 +122,10 @@
 
 @layer utilities {
   .text-wpo-primary {
+    color: hsl(var(--wpo-primary));
+  }
+
+  .text-wpo-text-primary {
     color: hsl(var(--wpo-text-primary));
   }
 

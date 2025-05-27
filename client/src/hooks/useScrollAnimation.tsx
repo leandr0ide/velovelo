@@ -14,7 +14,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
   } = options;
 
   const [isVisible, setIsVisible] = useState(false);
-  const ref = useRef<HTMLElement>(null);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -46,7 +46,7 @@ export function useScrollAnimation(options: UseScrollAnimationOptions = {}) {
 }
 
 export function useScrollAnimationMultiple(elements: number, options?: UseScrollAnimationOptions) {
-  const refs = useRef<(HTMLElement | null)[]>([]);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
   const [visibleItems, setVisibleItems] = useState<boolean[]>(new Array(elements).fill(false));
 
   useEffect(() => {

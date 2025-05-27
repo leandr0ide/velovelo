@@ -15,6 +15,8 @@ import GuiasGratuitas from "@/pages/GuiasGratuitas";
 import TestVelocidad from "@/pages/TestVelocidad";
 import Webinars from "@/pages/Webinars";
 import CentroAyuda from "@/pages/CentroAyuda";
+import CasosExito from "@/pages/CasosExito";
+import Recursos from "@/pages/Recursos";
 
 function Router() {
   return (
@@ -30,6 +32,8 @@ function Router() {
       <Route path="/test-velocidad" component={TestVelocidad} />
       <Route path="/webinars" component={Webinars} />
       <Route path="/centro-ayuda" component={CentroAyuda} />
+      <Route path="/casos-exito" component={CasosExito} />
+      <Route path="/recursos" component={Recursos} />
       <Route component={NotFound} />
     </Switch>
   );
