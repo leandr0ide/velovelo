@@ -1,3 +1,5 @@
+import { Link } from "wouter";
+
 export function Footer() {
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -36,35 +38,44 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-6">Servicios</h4>
             <ul className="space-y-3">
               <li>
-                <button 
-                  onClick={() => scrollToSection('servicios')}
-                  className="text-gray-300 hover:text-wpo-primary transition-colors text-left"
+                <Link 
+                  href="/auditoria-wpo"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
                 >
                   Auditoría WPO
-                </button>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('servicios')}
-                  className="text-gray-300 hover:text-wpo-primary transition-colors text-left"
+                <Link 
+                  href="/optimizacion-tecnica"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
                 >
                   Optimización Técnica
-                </button>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/core-web-vitals"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Core Web Vitals
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/monitoreo-continuo"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Monitoreo Continuo
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/consultoria-seo"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Consultoría SEO
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -73,32 +84,44 @@ export function Footer() {
             <h4 className="text-lg font-semibold mb-6">Recursos</h4>
             <ul className="space-y-3">
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/blog"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Blog WPO
-                </a>
+                </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection('recursos')}
-                  className="text-gray-300 hover:text-wpo-primary transition-colors text-left"
+                <Link 
+                  href="/guias-gratuitas"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
                 >
                   Guías Gratuitas
-                </button>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/test-velocidad"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Test de Velocidad
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/webinars"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Webinars
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-gray-300 hover:text-wpo-primary transition-colors">
+                <Link 
+                  href="/centro-ayuda"
+                  className="text-gray-300 hover:text-wpo-primary transition-colors"
+                >
                   Centro de Ayuda
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
