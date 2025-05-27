@@ -2,13 +2,24 @@ import {
   users, 
   contactSubmissions, 
   speedTestResults,
+  blogPosts,
+  caseStudies,
+  resources,
   type User, 
   type InsertUser, 
   type ContactSubmission, 
   type InsertContactSubmission,
   type SpeedTestResult,
-  type InsertSpeedTest
+  type InsertSpeedTest,
+  type BlogPost,
+  type InsertBlogPost,
+  type CaseStudy,
+  type InsertCaseStudy,
+  type Resource,
+  type InsertResource
 } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   // User methods
@@ -24,88 +35,153 @@ export interface IStorage {
   createSpeedTestResult(result: InsertSpeedTest): Promise<SpeedTestResult>;
   getSpeedTestResults(): Promise<SpeedTestResult[]>;
   getSpeedTestByUrl(url: string): Promise<SpeedTestResult | undefined>;
+  
+  // Blog post methods
+  createBlogPost(post: InsertBlogPost): Promise<BlogPost>;
+  updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost>;
+  deleteBlogPost(id: number): Promise<void>;
+  getBlogPosts(): Promise<BlogPost[]>;
+  getBlogPost(id: number): Promise<BlogPost | undefined>;
+  getBlogPostBySlug(slug: string): Promise<BlogPost | undefined>;
+  
+  // Case study methods
+  createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy>;
+  updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy>;
+  deleteCaseStudy(id: number): Promise<void>;
+  getCaseStudies(): Promise<CaseStudy[]>;
+  getCaseStudy(id: number): Promise<CaseStudy | undefined>;
+  
+  // Resource methods
+  createResource(resource: InsertResource): Promise<Resource>;
+  updateResource(id: number, resource: Partial<InsertResource>): Promise<Resource>;
+  deleteResource(id: number): Promise<void>;
+  getResources(): Promise<Resource[]>;
+  getResource(id: number): Promise<Resource | undefined>;
+  getResourcesByType(type: string): Promise<Resource[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private contactSubmissions: Map<number, ContactSubmission>;
-  private speedTestResults: Map<number, SpeedTestResult>;
-  private currentUserId: number;
-  private currentContactId: number;
-  private currentSpeedTestId: number;
-
-  constructor() {
-    this.users = new Map();
-    this.contactSubmissions = new Map();
-    this.speedTestResults = new Map();
-    this.currentUserId = 1;
-    this.currentContactId = 1;
-    this.currentSpeedTestId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
+  // User methods
   async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user || undefined;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const [user] = await db.select().from(users).where(eq(users.username, username));
+    return user || undefined;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.currentUserId++;
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
   }
 
+  // Contact submission methods
   async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
-    const id = this.currentContactId++;
-    const contactSubmission: ContactSubmission = {
-      ...submission,
-      id,
-      createdAt: new Date(),
-      comments: submission.comments || null,
-      company: submission.company || null,
-      objective: submission.objective || null
-    };
-    this.contactSubmissions.set(id, contactSubmission);
+    const [contactSubmission] = await db.insert(contactSubmissions).values(submission).returning();
     return contactSubmission;
   }
 
   async getContactSubmissions(): Promise<ContactSubmission[]> {
-    return Array.from(this.contactSubmissions.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(contactSubmissions);
   }
 
+  // Speed test methods
   async createSpeedTestResult(result: InsertSpeedTest): Promise<SpeedTestResult> {
-    const id = this.currentSpeedTestId++;
-    const speedTestResult: SpeedTestResult = {
-      ...result,
-      id,
-      createdAt: new Date(),
-      lighthouseScore: result.lighthouseScore || null,
-      lcp: result.lcp || null,
-      fid: result.fid || null,
-      cls: result.cls || null
-    };
-    this.speedTestResults.set(id, speedTestResult);
+    const [speedTestResult] = await db.insert(speedTestResults).values(result).returning();
     return speedTestResult;
   }
 
   async getSpeedTestResults(): Promise<SpeedTestResult[]> {
-    return Array.from(this.speedTestResults.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await db.select().from(speedTestResults);
   }
 
   async getSpeedTestByUrl(url: string): Promise<SpeedTestResult | undefined> {
-    return Array.from(this.speedTestResults.values()).find(
-      result => result.url === url
-    );
+    const [result] = await db.select().from(speedTestResults).where(eq(speedTestResults.url, url));
+    return result || undefined;
+  }
+
+  // Blog post methods
+  async createBlogPost(post: InsertBlogPost): Promise<BlogPost> {
+    const [blogPost] = await db.insert(blogPosts).values(post).returning();
+    return blogPost;
+  }
+
+  async updateBlogPost(id: number, post: Partial<InsertBlogPost>): Promise<BlogPost> {
+    const [updated] = await db.update(blogPosts).set(post).where(eq(blogPosts.id, id)).returning();
+    return updated;
+  }
+
+  async deleteBlogPost(id: number): Promise<void> {
+    await db.delete(blogPosts).where(eq(blogPosts.id, id));
+  }
+
+  async getBlogPosts(): Promise<BlogPost[]> {
+    return await db.select().from(blogPosts);
+  }
+
+  async getBlogPost(id: number): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.id, id));
+    return post || undefined;
+  }
+
+  async getBlogPostBySlug(slug: string): Promise<BlogPost | undefined> {
+    const [post] = await db.select().from(blogPosts).where(eq(blogPosts.slug, slug));
+    return post || undefined;
+  }
+
+  // Case study methods
+  async createCaseStudy(caseStudy: InsertCaseStudy): Promise<CaseStudy> {
+    const [created] = await db.insert(caseStudies).values(caseStudy).returning();
+    return created;
+  }
+
+  async updateCaseStudy(id: number, caseStudy: Partial<InsertCaseStudy>): Promise<CaseStudy> {
+    const [updated] = await db.update(caseStudies).set(caseStudy).where(eq(caseStudies.id, id)).returning();
+    return updated;
+  }
+
+  async deleteCaseStudy(id: number): Promise<void> {
+    await db.delete(caseStudies).where(eq(caseStudies.id, id));
+  }
+
+  async getCaseStudies(): Promise<CaseStudy[]> {
+    return await db.select().from(caseStudies);
+  }
+
+  async getCaseStudy(id: number): Promise<CaseStudy | undefined> {
+    const [caseStudy] = await db.select().from(caseStudies).where(eq(caseStudies.id, id));
+    return caseStudy || undefined;
+  }
+
+  // Resource methods
+  async createResource(resource: InsertResource): Promise<Resource> {
+    const [created] = await db.insert(resources).values(resource).returning();
+    return created;
+  }
+
+  async updateResource(id: number, resource: Partial<InsertResource>): Promise<Resource> {
+    const [updated] = await db.update(resources).set(resource).where(eq(resources.id, id)).returning();
+    return updated;
+  }
+
+  async deleteResource(id: number): Promise<void> {
+    await db.delete(resources).where(eq(resources.id, id));
+  }
+
+  async getResources(): Promise<Resource[]> {
+    return await db.select().from(resources);
+  }
+
+  async getResource(id: number): Promise<Resource | undefined> {
+    const [resource] = await db.select().from(resources).where(eq(resources.id, id));
+    return resource || undefined;
+  }
+
+  async getResourcesByType(type: string): Promise<Resource[]> {
+    return await db.select().from(resources).where(eq(resources.type, type));
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
