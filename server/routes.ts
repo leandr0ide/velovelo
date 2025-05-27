@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { setupAuth } from "./auth";
 import { 
   insertContactSubmissionSchema, 
   insertSpeedTestSchema,
@@ -11,6 +12,9 @@ import {
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Setup authentication
+  const requireAdmin = setupAuth(app);
+
   // Contact form submission
   app.post("/api/contact", async (req, res) => {
     try {
@@ -107,8 +111,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Blog posts API
-  app.get("/api/blog-posts", async (req, res) => {
+  // Blog posts API (protected routes)
+  app.get("/api/blog-posts", requireAdmin, async (req, res) => {
     try {
       const posts = await storage.getBlogPosts();
       res.json(posts);
@@ -117,7 +121,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/blog-posts", async (req, res) => {
+  app.post("/api/blog-posts", requireAdmin, async (req, res) => {
     try {
       const validatedData = insertBlogPostSchema.parse(req.body);
       const post = await storage.createBlogPost(validatedData);
@@ -127,7 +131,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/blog-posts/:id", async (req, res) => {
+  app.put("/api/blog-posts/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const validatedData = insertBlogPostSchema.partial().parse(req.body);
@@ -138,7 +142,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/blog-posts/:id", async (req, res) => {
+  app.delete("/api/blog-posts/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteBlogPost(id);
@@ -148,8 +152,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Case studies API
-  app.get("/api/case-studies", async (req, res) => {
+  // Case studies API (protected routes)
+  app.get("/api/case-studies", requireAdmin, async (req, res) => {
     try {
       const caseStudies = await storage.getCaseStudies();
       res.json(caseStudies);
@@ -158,7 +162,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/case-studies", async (req, res) => {
+  app.post("/api/case-studies", requireAdmin, async (req, res) => {
     try {
       const validatedData = insertCaseStudySchema.parse(req.body);
       const caseStudy = await storage.createCaseStudy(validatedData);
@@ -168,7 +172,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/case-studies/:id", async (req, res) => {
+  app.put("/api/case-studies/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const validatedData = insertCaseStudySchema.partial().parse(req.body);
@@ -179,7 +183,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/case-studies/:id", async (req, res) => {
+  app.delete("/api/case-studies/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteCaseStudy(id);
@@ -189,8 +193,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Resources API
-  app.get("/api/resources", async (req, res) => {
+  // Resources API (protected routes)
+  app.get("/api/resources", requireAdmin, async (req, res) => {
     try {
       const resources = await storage.getResources();
       res.json(resources);
@@ -199,7 +203,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/resources", async (req, res) => {
+  app.post("/api/resources", requireAdmin, async (req, res) => {
     try {
       const validatedData = insertResourceSchema.parse(req.body);
       const resource = await storage.createResource(validatedData);
@@ -209,7 +213,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put("/api/resources/:id", async (req, res) => {
+  app.put("/api/resources/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       const validatedData = insertResourceSchema.partial().parse(req.body);
@@ -220,7 +224,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/resources/:id", async (req, res) => {
+  app.delete("/api/resources/:id", requireAdmin, async (req, res) => {
     try {
       const id = parseInt(req.params.id);
       await storage.deleteResource(id);

@@ -35,6 +35,7 @@ export const speedTestResults = pgTable("speed_test_results", {
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
   password: true,
+  isAdmin: true,
 });
 
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions).omit({
