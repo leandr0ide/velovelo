@@ -17,6 +17,7 @@ import Webinars from "@/pages/Webinars";
 import CentroAyuda from "@/pages/CentroAyuda";
 import CasosExito from "@/pages/CasosExito";
 import Recursos from "@/pages/Recursos";
+import Admin from "@/pages/Admin";
 
 function Router() {
   return (
@@ -34,6 +35,7 @@ function Router() {
       <Route path="/centro-ayuda" component={CentroAyuda} />
       <Route path="/casos-exito" component={CasosExito} />
       <Route path="/recursos" component={Recursos} />
+      <Route path="/admin" component={Admin} />
       <Route component={NotFound} />
     </Switch>
   );
